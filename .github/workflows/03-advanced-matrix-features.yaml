@@ -1,6 +1,6 @@
 name: Advanced Matrix Configuration
 
-on: [push]
+on: workflow_call
 
 jobs:
   test:
