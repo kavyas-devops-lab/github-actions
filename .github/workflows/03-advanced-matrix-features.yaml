@@ -1,0 +1,52 @@
+name: Advanced Matrix Configuration
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [16, 18, 20]
+        include:
+          # Add specific combinations with extra properties
+          - os: ubuntu-latest
+            node-version: 14
+            experimental: true
+            label: "legacy"
+          - os: ubuntu-latest
+            node-version: 21
+            experimental: true
+            label: "cutting-edge"
+        exclude:
+          # Remove specific combinations
+          - os: macos-latest
+            node-version: 16
+      
+      # Control failure behavior
+      fail-fast: false  # Don't cancel other jobs if one fails
+      max-parallel: 3   # Limit concurrent jobs
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      run: echo "nodejs version ${{ matrix.node-version }}"
+    
+    - name: Extra step for experimental builds
+      if: matrix.experimental
+      run: |
+        echo "Running experimental tests for ${{ matrix.label }}"
+        echo "npm run test:experimental || true"
+    
+    - name: Platform-specific commands
+      run: |
+        if [ "${{ matrix.os }}" = "windows-latest" ]; then
+          echo "Windows-specific setup"
+        elif [ "${{ matrix.os }}" = "macos-latest" ]; then
+          echo "macOS-specific setup"
+        else
+          echo "Linux-specific setup"
+        fi
+      shell: bash
