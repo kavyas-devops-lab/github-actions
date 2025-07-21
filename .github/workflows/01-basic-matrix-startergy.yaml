@@ -12,8 +12,4 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Install dependencies
-      run: npm install
+      run: echo "setup node with ${{ matrix.node-version }}"
