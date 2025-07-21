@@ -1,6 +1,6 @@
 name: Multi-Dimensional Matrix
 
-on: [push]
+on: workflow_call
 
 jobs:
   test:
