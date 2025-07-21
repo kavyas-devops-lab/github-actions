@@ -1,6 +1,6 @@
 name: Basic Matrix Example
 
-on: [push]
+on: workflow_call
 
 jobs:
   test:
